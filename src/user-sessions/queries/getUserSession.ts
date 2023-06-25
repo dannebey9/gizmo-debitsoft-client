@@ -10,9 +10,9 @@ const GetUserSession = z.object({
 
 export default resolver.pipe(resolver.zod(GetUserSession), resolver.authorize(), async ({ id }) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const userSession = await db.userSession.findFirst({ where: { id } })
-
-  if (!userSession) throw new NotFoundError()
-
-  return userSession
+  // const userSession = await db.userSession.findFirst({ where: { id } })
+  //
+  // if (!userSession) throw new NotFoundError()
+  //
+  // return userSession
 })

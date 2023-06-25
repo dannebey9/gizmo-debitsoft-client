@@ -34,28 +34,28 @@ export const EditUser = () => {
       <div>
         <h1>Edit User {user.id}</h1>
         <pre>{JSON.stringify(user, null, 2)}</pre>
-        <Suspense fallback={<div>Loading...</div>}>
-          <UserForm
-            submitText="Update User"
-            schema={UpdateUserSchema}
-            initialValues={user}
-            onSubmit={async (values) => {
-              try {
-                const updated = await updateUserMutation({
-                  id: user.id,
-                  ...values,
-                })
-                await setQueryData(updated)
-                await router.push(Routes.ShowUserPage({ userId: updated.id }))
-              } catch (error: any) {
-                console.error(error)
-                return {
-                  [FORM_ERROR]: error.toString(),
-                }
-              }
-            }}
-          />
-        </Suspense>
+        {/*<Suspense fallback={<div>Loading...</div>}>*/}
+        {/*  <UserForm*/}
+        {/*    submitText="Update User"*/}
+        {/*    schema={UpdateUserSchema}*/}
+        {/*    initialValues={user}*/}
+        {/*    onSubmit={async (values) => {*/}
+        {/*      try {*/}
+        {/*        const updated = await updateUserMutation({*/}
+        {/*          id: user.id,*/}
+        {/*          ...values,*/}
+        {/*        })*/}
+        {/*        await setQueryData(updated)*/}
+        {/*        await router.push(Routes.ShowUserPage({ userId: updated.id }))*/}
+        {/*      } catch (error: any) {*/}
+        {/*        console.error(error)*/}
+        {/*        return {*/}
+        {/*          [FORM_ERROR]: error.toString(),*/}
+        {/*        }*/}
+        {/*      }*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</Suspense>*/}
       </div>
     </>
   )

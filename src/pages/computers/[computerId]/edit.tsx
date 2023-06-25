@@ -34,28 +34,28 @@ export const EditComputer = () => {
       <div>
         <h1>Edit Computer {computer.id}</h1>
         <pre>{JSON.stringify(computer, null, 2)}</pre>
-        <Suspense fallback={<div>Loading...</div>}>
-          <ComputerForm
-            submitText="Update Computer"
-            schema={UpdateComputerSchema}
-            initialValues={computer}
-            onSubmit={async (values) => {
-              try {
-                const updated = await updateComputerMutation({
-                  id: computer.id,
-                  ...values,
-                })
-                await setQueryData(updated)
-                await router.push(Routes.ShowComputerPage({ computerId: updated.id }))
-              } catch (error: any) {
-                console.error(error)
-                return {
-                  [FORM_ERROR]: error.toString(),
-                }
-              }
-            }}
-          />
-        </Suspense>
+        {/*<Suspense fallback={<div>Loading...</div>}>*/}
+        {/*  <ComputerForm*/}
+        {/*    submitText="Update Computer"*/}
+        {/*    schema={UpdateComputerSchema}*/}
+        {/*    initialValues={computer}*/}
+        {/*    onSubmit={async (values) => {*/}
+        {/*      try {*/}
+        {/*        const updated = await updateComputerMutation({*/}
+        {/*          id: computer.id,*/}
+        {/*          ...values,*/}
+        {/*        })*/}
+        {/*        await setQueryData(updated)*/}
+        {/*        await router.push(Routes.ShowComputerPage({ computerId: updated.id }))*/}
+        {/*      } catch (error: any) {*/}
+        {/*        console.error(error)*/}
+        {/*        return {*/}
+        {/*          [FORM_ERROR]: error.toString(),*/}
+        {/*        }*/}
+        {/*      }*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</Suspense>*/}
       </div>
     </>
   )

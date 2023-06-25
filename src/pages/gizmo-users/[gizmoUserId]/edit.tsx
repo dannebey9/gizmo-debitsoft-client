@@ -28,34 +28,34 @@ export const EditGizmoUser = () => {
   return (
     <>
       <Head>
-        <title>Edit GizmoUser {gizmoUser.id}</title>
+        <title>Edit GizmoUser</title>
       </Head>
 
       <div>
-        <h1>Edit GizmoUser {gizmoUser.id}</h1>
+        <h1>Edit GizmoUser</h1>
         <pre>{JSON.stringify(gizmoUser, null, 2)}</pre>
-        <Suspense fallback={<div>Loading...</div>}>
-          <GizmoUserForm
-            submitText="Update GizmoUser"
-            schema={UpdateGizmoUserSchema}
-            initialValues={gizmoUser}
-            onSubmit={async (values) => {
-              try {
-                const updated = await updateGizmoUserMutation({
-                  id: gizmoUser.id,
-                  ...values,
-                })
-                await setQueryData(updated)
-                await router.push(Routes.ShowGizmoUserPage({ gizmoUserId: updated.id }))
-              } catch (error: any) {
-                console.error(error)
-                return {
-                  [FORM_ERROR]: error.toString(),
-                }
-              }
-            }}
-          />
-        </Suspense>
+        {/*<Suspense fallback={<div>Loading...</div>}>*/}
+        {/*  <GizmoUserForm*/}
+        {/*    submitText="Update GizmoUser"*/}
+        {/*    schema={UpdateGizmoUserSchema}*/}
+        {/*    initialValues={gizmoUser}*/}
+        {/*    onSubmit={async (values) => {*/}
+        {/*      try {*/}
+        {/*        const updated = await updateGizmoUserMutation({*/}
+        {/*          id: gizmoUser.id,*/}
+        {/*          ...values,*/}
+        {/*        })*/}
+        {/*        await setQueryData(updated)*/}
+        {/*        await router.push(Routes.ShowGizmoUserPage({ gizmoUserId: updated.id }))*/}
+        {/*      } catch (error: any) {*/}
+        {/*        console.error(error)*/}
+        {/*        return {*/}
+        {/*          [FORM_ERROR]: error.toString(),*/}
+        {/*        }*/}
+        {/*      }*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</Suspense>*/}
       </div>
     </>
   )

@@ -7,8 +7,8 @@ export default resolver.pipe(
   resolver.authorize(),
   async (input) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const userSession = await db.userSession.create({ data: input })
-
-    return userSession
+    // const userSession = await db.userSession.create({ data: input })
+    //
+    // return userSession
   }
 )

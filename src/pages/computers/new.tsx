@@ -15,24 +15,24 @@ const NewComputerPage = () => {
   return (
     <Layout title={"Create New Computer"}>
       <h1>Create New Computer</h1>
-      <Suspense fallback={<div>Loading...</div>}>
-        <ComputerForm
-          submitText="Create Computer"
-          schema={CreateComputerSchema}
-          // initialValues={{}}
-          onSubmit={async (values) => {
-            try {
-              const computer = await createComputerMutation(values)
-              await router.push(Routes.ShowComputerPage({ computerId: computer.id }))
-            } catch (error: any) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }}
-        />
-      </Suspense>
+      {/*<Suspense fallback={<div>Loading...</div>}>*/}
+      {/*  <ComputerForm*/}
+      {/*    submitText="Create Computer"*/}
+      {/*    schema={CreateComputerSchema}*/}
+      {/*    // initialValues={{}}*/}
+      {/*    onSubmit={async (values) => {*/}
+      {/*      try {*/}
+      {/*        const computer = await createComputerMutation(values)*/}
+      {/*        await router.push(Routes.ShowComputerPage({ computerId: computer.id }))*/}
+      {/*      } catch (error: any) {*/}
+      {/*        console.error(error)*/}
+      {/*        return {*/}
+      {/*          [FORM_ERROR]: error.toString(),*/}
+      {/*        }*/}
+      {/*      }*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*</Suspense>*/}
       <p>
         <Link href={Routes.ComputersPage()}>Computers</Link>
       </p>

@@ -7,8 +7,7 @@ export default resolver.pipe(
   resolver.authorize(),
   async (input) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const gizmoUser = await db.gizmoUser.create({ data: input })
-
-    return gizmoUser
+    // const gizmoUser = await db.gizmoUser.create({ data: input })
+    // return gizmoUser
   }
 )

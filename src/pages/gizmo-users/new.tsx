@@ -15,24 +15,24 @@ const NewGizmoUserPage = () => {
   return (
     <Layout title={"Create New GizmoUser"}>
       <h1>Create New GizmoUser</h1>
-      <Suspense fallback={<div>Loading...</div>}>
-        <GizmoUserForm
-          submitText="Create GizmoUser"
-          schema={CreateGizmoUserSchema}
-          // initialValues={{}}
-          onSubmit={async (values) => {
-            try {
-              const gizmoUser = await createGizmoUserMutation(values)
-              await router.push(Routes.ShowGizmoUserPage({ gizmoUserId: gizmoUser.id }))
-            } catch (error: any) {
-              console.error(error)
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }}
-        />
-      </Suspense>
+      {/*<Suspense fallback={<div>Loading...</div>}>*/}
+      {/*  <GizmoUserForm*/}
+      {/*    submitText="Create GizmoUser"*/}
+      {/*    schema={CreateGizmoUserSchema}*/}
+      {/*    // initialValues={{}}*/}
+      {/*    onSubmit={async (values) => {*/}
+      {/*      try {*/}
+      {/*        const gizmoUser = await createGizmoUserMutation(values)*/}
+      {/*        await router.push(Routes.ShowGizmoUserPage({ gizmoUserId: gizmoUser.id }))*/}
+      {/*      } catch (error: any) {*/}
+      {/*        console.error(error)*/}
+      {/*        return {*/}
+      {/*          [FORM_ERROR]: error.toString(),*/}
+      {/*        }*/}
+      {/*      }*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*</Suspense>*/}
       <p>
         <Link href={Routes.GizmoUsersPage()}>GizmoUsers</Link>
       </p>

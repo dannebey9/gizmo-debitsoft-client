@@ -1,0 +1,68 @@
+version: "3"
+
+networks:
+  development:
+
+services:
+  web-server:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./back:/var/www/html:delegated
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    networks:
+      - development
+    restart: always
+    depends_on:
+      - node
+    env_file:
+      - .env
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+      - ./certbot-log:/var/log/letsencrypt/
+  node:
+    build:
+      context: .
+      dockerfile: node.dockerfile
+    container_name: septik-node
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - development
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    command: yarn start
+  postgres:
+    image: postgres:13.3
+    container_name: ${DB_HOST}
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - .:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT_EXTERNAL}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      # start_period: 10s
+    restart: unless-stopped
+    networks:
+      - development
