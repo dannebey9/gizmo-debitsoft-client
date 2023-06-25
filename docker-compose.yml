@@ -33,7 +33,7 @@ services:
     build:
       context: .
       dockerfile: node.dockerfile
-    container_name: septik-node
+    container_name: node
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
