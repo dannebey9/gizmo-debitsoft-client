@@ -6,11 +6,10 @@ import { BlitzPage, Routes } from "@blitzjs/next"
 const SignupPage: BlitzPage = () => {
   const router = useRouter()
 
-  return (
-    <Layout title="Sign Up">
-      <SignupForm onSuccess={() => router.push(Routes.Home())} />
-    </Layout>
-  )
+  return <SignupForm onSuccess={() => router.push(Routes.Home())} />
 }
+
+SignupPage.redirectAuthenticatedTo = "/"
+SignupPage.getLayout = (page) => <Layout title="Регистрация">{page}</Layout>
 
 export default SignupPage

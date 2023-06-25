@@ -10,7 +10,7 @@ const ForgotPasswordPage: BlitzPage = () => {
   const [forgotPasswordMutation, { isSuccess }] = useMutation(forgotPassword)
 
   return (
-    <Layout title="Forgot Your Password?">
+    <>
       <h1>Forgot your password?</h1>
 
       {isSuccess ? (
@@ -39,8 +39,10 @@ const ForgotPasswordPage: BlitzPage = () => {
           <LabeledTextField name="email" label="Email" placeholder="Email" />
         </Form>
       )}
-    </Layout>
+    </>
   )
 }
 
+ForgotPasswordPage.redirectAuthenticatedTo = "/"
+ForgotPasswordPage.getLayout = (page) => <Layout title="Забыли пароль">{page}</Layout>
 export default ForgotPasswordPage

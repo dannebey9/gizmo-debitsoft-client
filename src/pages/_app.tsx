@@ -2,7 +2,13 @@ import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@bl
 import { AuthenticationError, AuthorizationError } from "blitz"
 import React from "react"
 import { withBlitz } from "src/blitz-client"
-import 'src/styles/globals.css'
+import "src/styles/globals.css"
+import { DevSupport } from "@react-buddy/ide-toolbox-next"
+import { ComponentPreviews, useInitial } from "../components/dev"
+import "@fontsource/roboto/300.css"
+import "@fontsource/roboto/400.css"
+import "@fontsource/roboto/500.css"
+import "@fontsource/roboto/700.css"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -28,7 +34,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      {getLayout(<Component {...pageProps} />)}
+      {getLayout(
+        <DevSupport ComponentPreviews={ComponentPreviews} useInitialHook={useInitial}>
+          <Component {...pageProps} />
+        </DevSupport>
+      )}
     </ErrorBoundary>
   )
 }
