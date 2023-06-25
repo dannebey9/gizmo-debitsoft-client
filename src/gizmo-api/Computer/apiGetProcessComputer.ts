@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { gizmoApi } from "../GizmoApi"
-import { getUrlApi } from "../_credentials/credentials"
+import { getConfigApi, getUrlApi } from "../_credentials/credentials"
 
 const MainModuleSchema = z.object({
   companyName: z.string().nullable(),
@@ -60,8 +60,8 @@ const TAG = "[apiGetProcessComputer.ts]"
 
 export const apiGetProcessComputer = async (hostId, userId: number) => {
   try {
-    const urlApi = await getUrlApi(userId)
-    const response = await gizmoApi.get(`${urlApi}hostcomputers/${hostId}/process`).json()
+    const { headers, url } = await getConfigApi(userId)
+    const response = await gizmoApi.get(`${url}hostcomputers/${hostId}/process`, { headers }).json()
 
     const validationResult = ApiResponseSchema.safeParse(response)
 

@@ -32,7 +32,7 @@ export const getConfigApi = async (userId) => {
     headers: {
       Authorization: `Basic ${encodedCredentialsFn(credentials.username, credentials.password)}`,
     },
-    url: credentials.url + "/api",
+    url: credentials.url + "/api/",
   }
 }
 

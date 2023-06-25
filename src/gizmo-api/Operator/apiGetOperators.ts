@@ -1,6 +1,6 @@
 import { z } from "zod"
 import ky from "ky"
-import { encodedCredentials, getUrlApi } from "../_credentials/credentials"
+import { encodedCredentials, getConfigApi, getUrlApi } from "../_credentials/credentials"
 import { gizmoApi } from "../GizmoApi"
 
 const OperatorSchema = z.object({
@@ -46,8 +46,9 @@ export const apiGetOperators = async (
   userId: number
 ) => {
   try {
-    const urlApi = await getUrlApi(userId)
-    const response = await gizmoApi.get(`${urlApi}v2.0/operators`, {
+    const { headers, url } = await getConfigApi(userId)
+    const response = await gizmoApi.get(`${url}v2.0/operators`, {
+      headers,
       searchParams: {
         Username: username,
         StartingAfter: startingAfter,

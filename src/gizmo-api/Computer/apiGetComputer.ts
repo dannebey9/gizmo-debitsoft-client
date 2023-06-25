@@ -36,8 +36,8 @@ const ApiResponse = z.object({
 
 export const apiGetComputer = async (hostId: number, userId: number) => {
   try {
-    const urlApi = await getUrlApi(userId)
-    const response = await gizmoApi.get(`${urlApi}v2.0/hosts/${hostId}`, {}).json()
+    const { headers, url } = await getConfigApi(userId)
+    const response = await gizmoApi.get(`${url}v2.0/hosts/${hostId}`, { headers }).json()
 
     const validationResult = ApiResponse.safeParse(response)
 

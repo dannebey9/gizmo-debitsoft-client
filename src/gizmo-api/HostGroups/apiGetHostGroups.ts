@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { gizmoApi } from "../GizmoApi"
-import { getUrlApi } from "../_credentials/credentials"
+import { getConfigApi, getUrlApi } from "../_credentials/credentials"
 
 export const HostGroupSchema = z.object({
   id: z.number(),
@@ -32,8 +32,8 @@ export type HostGroupsResponse = z.infer<typeof ApiResponseSchema>
 
 export const apiGetHostGroups = async (userId: number) => {
   try {
-    const urlApi = await getUrlApi(userId)
-    const response = await gizmoApi.get(`${urlApi}v2.0/hostgroups`)
+    const { headers, url } = await getConfigApi(userId)
+    const response = await gizmoApi.get(`${url}v2.0/hostgroups`, { headers })
 
     // Ky автоматически парсит ответ в JSON, если это возможно
     const data = await response.json()

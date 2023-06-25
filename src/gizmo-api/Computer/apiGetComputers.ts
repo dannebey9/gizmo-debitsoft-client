@@ -1,7 +1,7 @@
 import { z } from "zod"
 import ky from "ky"
 import { gizmoApi } from "../GizmoApi"
-import { getUrlApi } from "../_credentials/credentials"
+import { getConfigApi, getUrlApi } from "../_credentials/credentials"
 
 const HostEndpointSchema = z.object({
   maximumUsers: z.number().nullable(),
@@ -44,8 +44,9 @@ const ApiResponse = z.object({
 
 export const apiGetComputers = async (startingAfter, endingBefore, limit, userId: number) => {
   try {
-    const urlApi = await getUrlApi(userId)
-    const response = await gizmoApi.get(`${urlApi}v2.0/hosts`, {
+    const { headers, url } = await getConfigApi(userId)
+    const response = await gizmoApi.get(`${url}v2.0/hosts`, {
+      headers,
       searchParams: {
         StartingAfter: startingAfter,
         EndingBefore: endingBefore,

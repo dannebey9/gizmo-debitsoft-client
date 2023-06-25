@@ -1,7 +1,7 @@
 import { z } from "zod"
 import ky from "ky"
 import { gizmoApi } from "../GizmoApi"
-import { getUrlApi } from "../_credentials/credentials"
+import { getConfigApi, getUrlApi } from "../_credentials/credentials"
 
 const User = z.object({
   id: z.number(),
@@ -50,8 +50,9 @@ const ApiResponse = z.object({
 
 export const apiGetUsers = async (startingAfter, endingBefore, limit, username, userIdDebit) => {
   try {
-    const urlApi = await getUrlApi(userIdDebit)
-    const response = await gizmoApi.get(`${urlApi}v2.0/users`, {
+    const { headers, url } = await getConfigApi(userIdDebit)
+    const response = await gizmoApi.get(`${url}v2.0/users`, {
+      headers,
       searchParams: {
         Username: username,
         StartingAfter: startingAfter,

@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { gizmoApi } from "../GizmoApi"
-import { getUrlApi } from "../_credentials/credentials"
+import { getConfigApi, getUrlApi } from "../_credentials/credentials"
 
 export const LicenseSchema = z.object({
   application: z.string(),
@@ -26,8 +26,8 @@ const ApiResponseSchema = z.object({
 
 export const apiGetActiveLicense = async (userId: number) => {
   try {
-    const urlApi = await getUrlApi(userId)
-    const response = await gizmoApi.get(`${urlApi}licenses/keys/reserved/info`)
+    const { headers, url } = await getConfigApi(userId)
+    const response = await gizmoApi.get(`${url}licenses/keys/reserved/info`, { headers })
 
     // Ky автоматически парсит ответ в JSON, если это возможно
     const data = await response.json()

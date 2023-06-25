@@ -1,6 +1,6 @@
 import { z } from "zod"
 import { gizmoApi } from "../GizmoApi"
-import { getUrlApi } from "../_credentials/credentials"
+import { getConfigApi, getUrlApi } from "../_credentials/credentials"
 
 const OperatorSchema = z.object({
   id: z.number(),
@@ -35,8 +35,8 @@ const TAG = "apiGetOperator"
 
 export const apiGetOperator = async (operatorId, userId: number) => {
   try {
-    const urlApi = await getUrlApi(userId)
-    const response = await gizmoApi.get(`${urlApi}v2.0/operators/${operatorId}`)
+    const { headers, url } = await getConfigApi(userId)
+    const response = await gizmoApi.get(`${url}v2.0/operators/${operatorId}`, { headers })
 
     // Ky автоматически парсит ответ в JSON, если это возможно
     const data = await response.json()

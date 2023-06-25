@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { gizmoApi } from "../GizmoApi"
 import { ShiftsInput } from "../../queries/shifts"
-import { getUrlApi } from "../_credentials/credentials"
+import { getConfigApi, getUrlApi } from "../_credentials/credentials"
 
 const ShiftDetailSchema = z.object({
   paymentMethodName: z.string(),
@@ -95,8 +95,9 @@ const TAG = "[apiGetShifts.ts]"
 
 export const apiGetShifts = async (queryParams: ShiftsInput, userId: number) => {
   try {
-    const urlApi = await getUrlApi(userId)
-    const response = gizmoApi.get(`${urlApi}reports/shiftslog`, {
+    const { headers, url } = await getConfigApi(userId)
+    const response = gizmoApi.get(`${url}reports/shiftslog`, {
+      headers,
       searchParams: queryParams,
     })
 

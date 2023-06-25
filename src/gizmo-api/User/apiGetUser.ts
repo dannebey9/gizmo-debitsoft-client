@@ -1,7 +1,7 @@
 import { z } from "zod"
 import ky from "ky"
 import { gizmoApi } from "../GizmoApi"
-import { getUrlApi } from "../_credentials/credentials"
+import { getConfigApi, getUrlApi } from "../_credentials/credentials"
 
 export const UserSchema = z.object({
   id: z.number(),
@@ -43,8 +43,8 @@ const TAG = "[apiGetUser.ts]"
 
 export const apiGetUser = async (userIdGizmo, userIdDebit) => {
   try {
-    const urlApi = await getUrlApi(userIdDebit)
-    const response = await gizmoApi.get(`${urlApi}v2.0/users/${userIdGizmo}`)
+    const { headers, url } = await getConfigApi(userIdDebit)
+    const response = await gizmoApi.get(`${url}v2.0/users/${userIdGizmo}`, { headers })
 
     // Ky автоматически парсит ответ в JSON, если это возможно
     const data = await response.json()
