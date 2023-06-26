@@ -61,3 +61,7 @@ services:
     restart: unless-stopped
     networks:
       - development
+
+volumes:
+  caddy_data:
+  caddy_config:
