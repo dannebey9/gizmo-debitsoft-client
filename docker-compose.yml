@@ -16,12 +16,8 @@ services:
       - ./site:/srv
       - caddy_data:/data
       - caddy_config:/config
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./nginx/certbot/conf:/etc/letsencrypt
-      - ./nginx/certbot/www:/var/www/certbot
-      - ./certbot-log:/var/log/letsencrypt/
+    networks:
+      - development
   node:
     build:
       context: .
