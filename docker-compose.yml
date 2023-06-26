@@ -13,9 +13,10 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./back:/var/www/html:delegated
       - ./nginx/certbot/conf:/etc/letsencrypt
-      - ./nginx/certbot/www:/var/www/certbot
+      - ./nginx/certbot/www:/var/www/certbot 
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     networks:
       - development
     restart: always

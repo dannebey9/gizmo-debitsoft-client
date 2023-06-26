@@ -11,8 +11,8 @@ COPY . .
 # Копирование зависимостей проекта
 #COPY package*.json ./
 RUN yarn install
-RUN yarn run blitz prisma migrate deploy
-RUN blitz db seed
+#RUN yarn run blitz prisma migrate deploy
+#RUN blitz db seed
 
 
 
@@ -34,4 +34,5 @@ RUN yarn build
 EXPOSE 3000
 
 # Команда для запуска приложения
-CMD [ "yarn start --port 3000" ]
+CMD [ "yarn run blitz prisma migrate deploy", "yarn start --port 3000" ]
+
