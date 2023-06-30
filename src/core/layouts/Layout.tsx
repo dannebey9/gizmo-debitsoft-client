@@ -36,6 +36,8 @@ import LogoutIcon from "@mui/icons-material/Logout"
 import { useMutation } from "@blitzjs/rpc"
 import logout from "../../auth/mutations/logout"
 import { RouteUrlObject } from "blitz"
+import { ConfirmProvider, useConfirm } from "../components/Confirm"
+import PaymentsIcon from "@mui/icons-material/Payments"
 
 interface ILink {
   href: RouteUrlObject
@@ -45,6 +47,7 @@ interface ILink {
 
 const linksIfClub: ILink[] = [
   { href: Routes.Home(), label: "Главная", icon: <DashboardIcon /> },
+  { href: Routes.CashPage(), label: "Касса", icon: <PaymentsIcon /> },
   { href: Routes.ComputersPage(), label: "Компьютеры", icon: <ComputerIcon /> },
   { href: Routes.GizmoUsersPage(), label: "Пользователи GIZMO", icon: <PeopleIcon /> },
   { href: Routes.ShiftsPage(), label: "Смены", icon: <BadgeIcon /> },
@@ -74,30 +77,32 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
   return (
     <NoSSR>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={"ru"}>
-        <>
-          <Head>
-            <title>{title || "gizmo-debitsoft-client"}</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-          <Suspense fallback={<div>Loading...</div>}>
-            <AppBarComponent title={title} handleDrawerOpen={handleDrawerOpen} />
-          </Suspense>
-          <NotificationList />
-          <Suspense fallback={<div>Loading...</div>}>
-            <Drawer
-              handleDrawerOpen={() => handleDrawerOpen()}
-              open={open}
-              handleDrawerClose={() => handleDrawerClose()}
-            />
-          </Suspense>
-          <main>
-            {/*<Toolbar title={title} />*/}
+        <ConfirmProvider>
+          <>
+            <Head>
+              <title>{title || "gizmo-debitsoft-client"}</title>
+              <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <Suspense fallback={<div>Loading...</div>}>
+              <AppBarComponent title={title} handleDrawerOpen={handleDrawerOpen} />
+            </Suspense>
+            <NotificationList />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Drawer
+                handleDrawerOpen={() => handleDrawerOpen()}
+                open={open}
+                handleDrawerClose={() => handleDrawerClose()}
+              />
+            </Suspense>
+            <main>
+              {/*<Toolbar title={title} />*/}
 
-            <Container style={{ marginTop: 15 }} maxWidth="lg">
-              {children}
-            </Container>
-          </main>
-        </>
+              <Container style={{ marginTop: 15 }} maxWidth="lg">
+                {children}
+              </Container>
+            </main>
+          </>
+        </ConfirmProvider>
       </LocalizationProvider>
     </NoSSR>
   )
@@ -179,6 +184,7 @@ const AppBarComponent: FC<{ title: string | undefined; handleDrawerOpen: () => v
   handleDrawerOpen,
 }) => {
   const [logoutMutation] = useMutation(logout)
+  const confirm = useConfirm()
   const router = useRouter()
   const currentUser = useCurrentUser()
   return (
@@ -215,7 +221,16 @@ const AppBarComponent: FC<{ title: string | undefined; handleDrawerOpen: () => v
               color={"inherit"}
               edge={"end"}
               onClick={async () => {
-                await logoutMutation()
+                confirm.open({
+                  id: "signout",
+                  title: "Вы уверены что хотите выйти?",
+                  message: "Все несохраненные данные будут потеряны",
+                  confirmText: "Выйти",
+                  cancelText: "Отмена",
+                  onConfirm: async () => {
+                    await logoutMutation()
+                  },
+                })
               }}
             >
               <LogoutIcon fontSize={"large"} />

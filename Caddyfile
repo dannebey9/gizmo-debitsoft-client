@@ -1,7 +1,4 @@
-# Replace example.com with your application's domain
 gizmo.debitsoft.ru {
-  # node:3000 is the docker container running the Node.js application
-  # in our case it's exposed on port 4000
   reverse_proxy node:3000  {
     header_down Strict-Transport-Security max-age=31536000;
    }

@@ -15,10 +15,14 @@ import {
   Chip,
   CircularProgress,
   Divider,
+  IconButton,
   LinearProgress,
   Stack,
 } from "@mui/material"
 import dayjs from "dayjs"
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew"
+import RestartAltIcon from "@mui/icons-material/RestartAlt"
+import { useConfirm } from "../../core/components/Confirm"
 
 const ITEMS_PER_PAGE = 100
 
@@ -38,6 +42,8 @@ export const ComputersList = () => {
 
   const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
   const goToNextPage = () => router.push({ query: { page: page + 1 } })
+
+  const confirm = useConfirm()
 
   const isTimeCritical = (AvailTime: number) => AvailTime <= 5 * 60
 
@@ -115,7 +121,13 @@ export const ComputersList = () => {
               ) : null}
               <CardHeader
                 title={
-                  <Stack direction="row" spacing={2} alignItems="center" justifyContent="start">
+                  <Stack
+                    direction="row"
+                    flexWrap={"wrap"}
+                    spacing={2}
+                    alignItems="center"
+                    justifyContent="start"
+                  >
                     <Typography noWrap={true} color={"black"} fontSize={"large"}>
                       {computer.name}
                     </Typography>
@@ -133,38 +145,53 @@ export const ComputersList = () => {
                     />
                   </Stack>
                 }
-                action={
-                  <Link href={Routes.ShowComputerPage({ computerId: computer.id })} passHref>
-                    <Button>Открыть</Button>
-                  </Link>
-                }
               />
               <CardContent>
-                {computer?.session ? (
-                  <>
-                    <Typography color="green" textAlign={"center"} fontSize={"larger"}>
-                      {computer?.session.user.balance.balance} ₽
-                    </Typography>
-                    {computer?.license ? (
-                      <>
-                        <Divider />
-                        <Stack>
-                          <Typography
-                            fontSize={"smaller"}
-                            textAlign={"center"}
-                            color="textSecondary"
-                          >
-                            Выдана лицензия
-                          </Typography>
-                          <Typography textAlign={"center"} color="textSecondary">
-                            {`${computer?.license.application} - ${computer?.license.licenseKey}`}
-                          </Typography>
-                        </Stack>
-                      </>
-                    ) : null}
-                  </>
-                ) : null}
-                {/* Добавьте дополнительную информацию здесь */}
+                <Stack direction="column">
+                  {computer?.session ? (
+                    <>
+                      <Typography color="green" textAlign={"center"} fontSize={"larger"}>
+                        {computer?.session.user.balance.balance} ₽
+                      </Typography>
+                      {computer?.license ? (
+                        <>
+                          <Divider />
+                          <Stack>
+                            <Typography
+                              fontSize={"smaller"}
+                              textAlign={"center"}
+                              color="textSecondary"
+                            >
+                              Выдана лицензия
+                            </Typography>
+                            <Typography textAlign={"center"} color="textSecondary">
+                              {`${computer?.license.application} - ${computer?.license.licenseKey}`}
+                            </Typography>
+                          </Stack>
+                        </>
+                      ) : null}
+                    </>
+                  ) : null}
+                  {computer?.session ? (
+                    <Stack direction="row" spacing={2} justifyContent={"center"}>
+                      <IconButton
+                        onClick={() =>
+                          confirm.open({
+                            title: `Выключение ${computer.name}`,
+                            message: `Вы действительно хотите выключить ${computer.name}?`,
+                            onConfirm: () => console.log("Выключение"),
+                            id: computer.id + "shutdown",
+                          })
+                        }
+                      >
+                        <PowerSettingsNewIcon />
+                      </IconButton>
+                    </Stack>
+                  ) : null}
+                  <Link href={Routes.ShowComputerPage({ computerId: computer.id })} passHref>
+                    <Button fullWidth>Подробнее</Button>
+                  </Link>
+                </Stack>
               </CardContent>
             </Card>
           </Grid>
